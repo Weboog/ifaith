@@ -1,0 +1,46 @@
+ul.dropdown{
+    position: absolute;
+    display: none;
+    left: -1rem;
+    top: 2.4rem;
+    width: 20rem;
+    list-style: none;
+    border-radius: 3px 1rem 1rem 1rem;
+    padding: 2rem 0;
+    background-color: #555;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.6rem;
+    // font-weight: bold;
+    margin-top: 1rem;
+    &::before{
+        position: absolute;
+        top: -1rem;
+        left: 1.2rem;
+        content: '';
+        display: block;
+        // background-color: yellow;
+        width: 0;
+        height: 0;
+        border-right: 1rem solid transparent;
+        border-left: 1rem solid transparent;
+        border-bottom: 1rem solid #555;
+
+    }
+    li{
+        padding: .2rem 0;
+        // background-color: green;
+        a{
+            transition: all .2s ease-in;
+            display: block;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            // background-color: pink;
+            padding: 0.5rem 2rem;
+            &:hover{
+                background-color: darken($color: yellow, $amount: 10);
+                padding-left: 3rem;;
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+section{
+    // background-color: lightcoral;
+    padding: 0 4rem;
+    div.video{
+        // background-color: lightgreen;
+        height: 85vh;
+        display: flex;
+        justify-content: center;
+        video{
+            height: 100%;
+        }
+    }
+}
