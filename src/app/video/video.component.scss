@@ -1,13 +1,22 @@
-section{
-    // background-color: lightcoral;
-    padding: 0 4rem;
-    div.video{
-        // background-color: lightgreen;
-        height: 85vh;
-        display: flex;
-        justify-content: center;
-        video{
-            height: 100%;
-        }
+section {
+  position: relative;
+  padding: 0 4rem;
+
+  div.video {
+    position: relative;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    video {
+      height: 100%;
     }
+  }
+  svg{
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+
+
 }

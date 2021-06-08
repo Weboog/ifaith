@@ -7,6 +7,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { HeaderComponent } from './header/header.component';
 import { VideoComponent } from './video/video.component';
 import { DropmenuComponent } from './header/dropmenu/dropmenu.component';
+import { ControlsComponent } from './video/controls/controls.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { DropmenuComponent } from './header/dropmenu/dropmenu.component';
     HomePageComponent,
     HeaderComponent,
     VideoComponent,
-    DropmenuComponent
+    DropmenuComponent,
+    ControlsComponent
   ],
   imports: [
     BrowserModule,
