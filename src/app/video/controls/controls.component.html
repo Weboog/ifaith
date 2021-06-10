@@ -5,11 +5,6 @@
       <img src="assets/icons/victory.png" alt="Channel logo">
     </p>
     <p class="channel_program">Jesus the saver</p>
-    <div class="channel_subtitle">
-      <svg>
-        <use xlink:href="assets/icons/sprite.svg#src-5"></use>
-      </svg>
-    </div>
     <div class="channel_audio">
       <div class="audio_level">
         <div class="wrapper">
@@ -18,7 +13,17 @@
         </div>
       </div>
       <svg class="speaker" (click)="toggleMuted()">
-        <use xlink:href="assets/icons/sprite.svg#src-4"></use>
+        <use xlink:href="assets/icons/sprite.svg#src-5"></use>
+      </svg>
+    </div>
+    <div class="channel_subtitle">
+      <svg>
+        <use href="assets/icons/sprite.svg#src-7"></use>
+      </svg>
+    </div>
+    <div class="channel_full_screen">
+      <svg>
+        <use href="assets/icons/sprite.svg#src-2" (click)="toggleFullScreen()"></use>
       </svg>
     </div>
   </div>

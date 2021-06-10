@@ -34,7 +34,7 @@ div.controls {
       }
       transition: all .2s;
       position: relative;
-      margin-left: 1rem;
+      margin-left: auto;
       cursor: pointer;
       padding: .2rem .5rem;
       border-radius: 0 0 .5rem .5rem;
@@ -87,7 +87,11 @@ div.controls {
 
     }
     &_subtitle{
-      margin-left: auto;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+    &_full_screen{
+      margin-left: 1.4rem;
       cursor: pointer;
     }
   }

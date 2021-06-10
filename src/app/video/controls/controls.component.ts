@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {TimeUtilsService} from "../../services/time_utils.service";
 
 @Component({
   selector: 'app-controls',
@@ -7,35 +8,60 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class ControlsComponent implements OnInit {
 
-  @Input() width = 0;
   video: any;
-  duration = 0;
+  duration: string = '';
   muted = false;
   volume = 1;
   interval: any;
 
-  constructor() { }
+  constructor(private timeUtils: TimeUtilsService) { }
 
   ngOnInit(): void {
     this.video = document.querySelector('video') as HTMLVideoElement;
-    let controls = document.querySelector('.controls') as HTMLDivElement;
-    controls.style.width = `${this.width}px`;
+    this.resizeControls();
     this.buildSeeker();
     this.moveAudioBar();
-    ControlsComponent.playVideo();
-
+    console.log(this.timeUtils.secondsToMinutes(120).format());
   }
 
   toggleMuted(){
     let svg = document.querySelector('svg.speaker use') as HTMLElement;
     this.muted = !this.muted;
     this.mutedVideo(this.muted);
-    svg.setAttribute('xlink:href', this.muted ? 'assets/icons/sprite.svg#src-3' : 'assets/icons/sprite.svg#src-4');
+    svg.setAttribute('href', this.muted ? 'assets/icons/sprite.svg#src-4' : 'assets/icons/sprite.svg#src-5');
   }
 
-  private static playVideo(){
+  mutedVideo(value: boolean){
     let video = document.querySelector('video') as HTMLVideoElement;
-    video.play();
+    let audioSeeker = document.querySelector('.audio_seeker') as HTMLDivElement;
+    video.muted = value;
+    this.muted = value;
+    if (video.muted) {
+      audioSeeker.style.height = '0';
+    } else {
+      audioSeeker.style.height = `${this.volume * 70}px`;
+    }
+  }
+
+  //resize controls to video
+  private resizeControls(){
+    let video = document.querySelector('.video') as HTMLDivElement;
+    let controls = document.querySelector('.controls') as HTMLDivElement;
+    controls.style.width = `${video.offsetHeight * 1.777777777}px`;
+
+    window.addEventListener('resize', () => {
+      controls.style.width = `${video.offsetHeight * 1.777777777}px`;
+    });
+  }
+
+  toggleFullScreen(){
+    console.log('fullscreen');
+    let video = document.querySelector('video') as HTMLVideoElement;
+    if (!document.fullscreenElement) {
+      video.requestFullscreen().catch(error => {alert('Cant set in full screen')});
+    } else {
+      document.exitFullscreen();
+    }
   }
 
   private static pause(){
@@ -53,29 +79,11 @@ export class ControlsComponent implements OnInit {
     return video.duration;
   }
 
-  private static getVolume(){
-    let video = document.querySelector('video') as HTMLVideoElement;
-    return video.volume;
-  }
-
-  mutedVideo(value: boolean){
-    let video = document.querySelector('video') as HTMLVideoElement;
-    let audioSeeker = document.querySelector('.audio_seeker') as HTMLDivElement;
-    video.muted = value;
-    this.muted = value;
-    if (video.muted) {
-      audioSeeker.style.height = '0';
-    } else {
-      audioSeeker.style.height = `${this.volume * 70}px`;
-    }
-  }
-
   private setVolume(amount: number){
     let video = document.querySelector('video') as HTMLVideoElement;
     video.volume = amount;
     this.volume = amount;
   }
-
 
   private buildSeeker(){
     let startTime = document.querySelector('.start_time') as HTMLParagraphElement;
@@ -95,8 +103,8 @@ export class ControlsComponent implements OnInit {
     track.appendChild(seeker);
     this.interval = setInterval(() => {
       //Set current time
-      startTime.innerHTML = Math.ceil(ControlsComponent.getCurrentTime()) < 10 ? '0' + Math.ceil(ControlsComponent.getCurrentTime()).toString() : Math.ceil(ControlsComponent.getCurrentTime()).toString() ;
-      this.duration = Math.ceil(ControlsComponent.getDuration());
+      startTime.innerHTML = this.timeUtils.secondsToMinutes(Math.floor(ControlsComponent.getCurrentTime())).format() ;
+      this.duration = this.timeUtils.secondsToMinutes(Math.floor(ControlsComponent.getDuration())).format() ;
       seekerStyle.width = `${(ControlsComponent.getCurrentTime() / ControlsComponent.getDuration()) * 100}%`;
       if(ControlsComponent.getCurrentTime() == ControlsComponent.getDuration()) {
         clearInterval(this.interval);
