@@ -93,7 +93,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
         selectedNum.classList.remove('hide');
         selectedNum.classList.add('currentTime');
 
-        selectedNum.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+        // selectedNum.scrollIntoView({ behavior: 'smooth', inline: 'center' });
       }
     },1000);
   }
