@@ -10,6 +10,9 @@ import { DropmenuComponent } from './header/dropmenu/dropmenu.component';
 import { ControlsComponent } from './video/controls/controls.component';
 import { HttpClientModule } from "@angular/common/http";
 import { FooterComponent } from './footer/footer.component';
+import { TimelineComponent } from './timeline/timeline.component';
+import { convertTime } from './timeline/timeConvert.pipe';
+import { ChannelComponent } from './timeline/channel/channel.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { FooterComponent } from './footer/footer.component';
     VideoComponent,
     DropmenuComponent,
     ControlsComponent,
-    FooterComponent
+    FooterComponent,
+    TimelineComponent,
+    ChannelComponent,
+    convertTime
   ],
   imports: [
     BrowserModule,

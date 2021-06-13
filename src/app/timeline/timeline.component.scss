@@ -1,0 +1,130 @@
+section {
+  display: flex;
+  justify-content: center;
+  margin: 5rem 0;
+  article {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    grid-template-rows: 3.5rem 1fr;
+    gap: 0 3rem;
+    width: 102.4rem;
+    padding: 1.5rem;
+    background-color: #272727;
+    color: white;
+    overflow: hidden;
+    overflow-x: scroll;
+    border-radius: .5rem;
+    .channel-left__info {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        height: 1.6rem;
+        // stroke: black;
+        fill: white;
+        cursor: pointer;
+      }
+      p{
+        margin-left: 1rem;
+        font-size: 2rem;
+      }
+    }
+    .channel-bottom__info {
+      position: sticky;
+      left: -1.5rem;
+      z-index: 100;
+      background-color: #272727;
+      grid-column: 1/2;
+      grid-row: 2/-1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1rem;
+      img {
+        width: 100%;
+      }
+
+      svg {
+        width: 1.8rem;
+        height: 1.8rem;
+        // stroke: black;
+        fill: red;
+        margin-right: 1.5rem;
+        cursor: pointer;
+      }
+    }
+    .minutes {
+      grid-column: 2 / -1;
+      grid-row: 1 / 2;
+      display: flex;
+      position: relative;
+      height: 3.5rem;
+      .timeline-minutes{
+        color: #b7b7b7;
+        position: absolute;
+      }
+    }
+    .prog-wrapper {
+      grid-column: 2 / -1;
+      grid-row: 2 / -1;
+      box-shadow: .5rem .5rem 8px #00000036;
+      .prog-container {
+        background-color: #151515;
+        color: #d4d4d4;
+        display: flex;
+        align-items: center;
+        position: relative;
+          &::after {
+            position: absolute;
+            content: '';
+            display: block;
+            right: 0;
+            height: 65%;
+            width: 0.15rem;
+            background: #e9f603;
+          }
+        .prog {
+          overflow: hidden;
+          padding: 1rem .5rem;
+        }
+      }
+    }
+  }
+}
+.hide {
+  opacity: 0;
+  width: 0.3rem;
+}
+
+.show {
+  opacity: 1;
+}
+
+.currentTime {
+  background-color: #e9f603;
+  border-radius: .5rem;
+  color: black !important;
+  font-size: 1.2rem;
+  padding: .3rem;
+  font-weight: bold;
+  z-index: 99;
+  position: relative;
+  &::after, &::before{
+    content: '\21E3';
+    color: #e9f603;
+    position: absolute;
+    top: 2.5rem;
+    right: 50%;
+    transform: translateX(50%);
+  }
+  &::before {
+    content: '';
+    width: .25rem;
+    height: 80px;
+    top: 3.8rem;
+    background-color: #e9f603;
+;
+  }
+}
