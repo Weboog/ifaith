@@ -13,22 +13,26 @@
         </div>
       </div>
       <svg class="speaker" (click)="toggleMuted()">
-        <use xlink:href="assets/icons/sprite.svg#src-5"></use>
+        <title>Volume</title>
+        <use href="assets/icons/sprite.svg#src-5" [style]="{display: muted ? 'none' : 'unset'}"></use>
+        <use href="assets/icons/sprite.svg#src-4" [style]="{display: muted ? 'unset' : 'none'}"></use>
       </svg>
     </div>
     <div class="channel_subtitle">
       <svg>
+        <title>Subtitles</title>
         <use href="assets/icons/sprite.svg#src-7"></use>
       </svg>
     </div>
     <div class="channel_full_screen">
       <svg>
+        <title>Full screen</title>
         <use href="assets/icons/sprite.svg#src-2" (click)="toggleFullScreen()"></use>
       </svg>
     </div>
   </div>
   <div class="timeline">
-    <p class="start_time">0</p>
+    <p class="start_time">{{currentTime}}</p>
     <div class="track"></div>
     <p class="end_time">{{duration}}</p>
   </div>

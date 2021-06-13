@@ -1,4 +1,5 @@
 div.controls {
+  //display: none;
   font-family: 'Roboto', sans-serif;
   position: relative;
   top: -11rem;
@@ -60,6 +61,7 @@ div.controls {
           width: 3px;
           height: 7rem;
           .audio_seeker{
+            transition: height ,.1s ease-in;
             position: absolute;
             bottom: 0;
             left: 0;

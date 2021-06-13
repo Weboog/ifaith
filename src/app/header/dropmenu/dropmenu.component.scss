@@ -7,11 +7,10 @@ ul.dropdown{
     width: 20rem;
     list-style: none;
     border-radius: 3px 1rem 1rem 1rem;
-    padding: 2rem 0;
+    padding: 2rem 0 0 0;
     background-color: #555;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1.6rem;
-    // font-weight: bold;
     margin-top: 1rem;
     &::before{
         position: absolute;
@@ -19,7 +18,6 @@ ul.dropdown{
         left: 1.2rem;
         content: '';
         display: block;
-        // background-color: yellow;
         width: 0;
         height: 0;
         border-right: 1rem solid transparent;
@@ -29,19 +27,27 @@ ul.dropdown{
     }
     li{
         padding: .2rem 0;
-        // background-color: green;
         a{
             transition: all .2s ease-in;
             display: block;
             text-decoration: none;
             color: white;
             cursor: pointer;
-            // background-color: pink;
             padding: 0.5rem 2rem;
             &:hover{
                 background-color: darken($color: yellow, $amount: 10);
                 padding-left: 3rem;;
             }
         }
+      &.button{
+        margin-top: .5rem;
+        border-top: 1px solid #666666;
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        a{
+          flex-grow: 1;
+        }
+      }
     }
 }

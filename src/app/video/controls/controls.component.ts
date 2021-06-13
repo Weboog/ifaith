@@ -6,13 +6,14 @@ import {TimeUtilsService} from "../../services/time_utils.service";
   templateUrl: './controls.component.html',
   styleUrls: ['./controls.component.scss']
 })
-export class ControlsComponent implements OnInit {
+export class ControlsComponent implements OnInit, AfterViewInit {
 
   video: any;
   duration: string = '';
-  muted = false;
+  currentTime: string = '';
   volume = 1;
-  interval: any;
+  muted = false;
+  width: number | undefined;
 
   constructor(private timeUtils: TimeUtilsService) { }
 
@@ -21,73 +22,60 @@ export class ControlsComponent implements OnInit {
     this.resizeControls();
     this.buildSeeker();
     this.moveAudioBar();
-    console.log(this.timeUtils.secondsToMinutes(120).format());
   }
 
-  toggleMuted(){
-    let svg = document.querySelector('svg.speaker use') as HTMLElement;
+  toggleMuted(): void{
     this.muted = !this.muted;
-    this.mutedVideo(this.muted);
-    svg.setAttribute('href', this.muted ? 'assets/icons/sprite.svg#src-4' : 'assets/icons/sprite.svg#src-5');
+    this.setMuted(this.muted);
   }
 
-  mutedVideo(value: boolean){
-    let video = document.querySelector('video') as HTMLVideoElement;
+  setMuted(value: boolean): void{
     let audioSeeker = document.querySelector('.audio_seeker') as HTMLDivElement;
-    video.muted = value;
+    this.video.muted = value;
     this.muted = value;
-    if (video.muted) {
+    if (this.video.muted) {
       audioSeeker.style.height = '0';
     } else {
       audioSeeker.style.height = `${this.volume * 70}px`;
     }
   }
 
-  //resize controls to video
-  private resizeControls(){
-    let video = document.querySelector('.video') as HTMLDivElement;
-    let controls = document.querySelector('.controls') as HTMLDivElement;
-    controls.style.width = `${video.offsetHeight * 1.777777777}px`;
-
-    window.addEventListener('resize', () => {
-      controls.style.width = `${video.offsetHeight * 1.777777777}px`;
-    });
-  }
-
   toggleFullScreen(){
     console.log('fullscreen');
-    let video = document.querySelector('video') as HTMLVideoElement;
+    let videoContainer = document.querySelector('.video') as HTMLDivElement;
     if (!document.fullscreenElement) {
-      video.requestFullscreen().catch(error => {alert('Cant set in full screen')});
+      videoContainer.requestFullscreen().catch(error => {alert('Cant set in full screen')});
     } else {
       document.exitFullscreen();
     }
   }
 
-  private static pause(){
-    let video = document.querySelector('video') as HTMLVideoElement;
-    video.pause();
+  private resizeControls(): void{
+    let controls = document.querySelector('.controls') as HTMLDivElement;
+    controls.style.width = `${this.video.offsetWidth}px`;
+    window.addEventListener('resize', () => {
+      controls.style.width = `${this.video.offsetWidth}px`;
+    });
   }
 
-  private static getCurrentTime(){
-    let video = document.querySelector('video') as HTMLVideoElement;
-    return video.currentTime;
+  private pause(){
+    this.video.pause();
   }
 
-  private static getDuration(){
-    let video = document.querySelector('video') as HTMLVideoElement;
-    return video.duration;
+  private getCurrentTime(): number{
+    return this.video.currentTime;
   }
 
-  private setVolume(amount: number){
-    let video = document.querySelector('video') as HTMLVideoElement;
-    video.volume = amount;
+  private getDuration(): number{
+    return this.video.duration;
+  }
+
+  private setVolume(amount: number): void{
+    this.video.volume = amount;
     this.volume = amount;
   }
 
   private buildSeeker(){
-    let startTime = document.querySelector('.start_time') as HTMLParagraphElement;
-    // let endTime = document.querySelector('.end_time') as HTMLParagraphElement;
     let track = document.querySelector('.track') as HTMLDivElement;
     let seeker = document.createElement('div');
     let seekerStyle = seeker.style;
@@ -99,17 +87,13 @@ export class ControlsComponent implements OnInit {
     seekerStyle.top = '0';
     seekerStyle.width = '0';
     seekerStyle.borderRadius = '3px';
-    startTime.innerHTML = '0';
     track.appendChild(seeker);
-    this.interval = setInterval(() => {
-      //Set current time
-      startTime.innerHTML = this.timeUtils.secondsToMinutes(Math.floor(ControlsComponent.getCurrentTime())).format() ;
-      this.duration = this.timeUtils.secondsToMinutes(Math.floor(ControlsComponent.getDuration())).format() ;
-      seekerStyle.width = `${(ControlsComponent.getCurrentTime() / ControlsComponent.getDuration()) * 100}%`;
-      if(ControlsComponent.getCurrentTime() == ControlsComponent.getDuration()) {
-        clearInterval(this.interval);
-      }
-    }, 1000);
+    //////////////////////////
+    this.video.addEventListener('timeupdate', () => {
+      this.duration = this.timeUtils.secondsToMinutes(Math.floor(this.getDuration())).format();
+      this.currentTime = this.timeUtils.secondsToMinutes(Math.floor(this.getCurrentTime())).format();
+      seekerStyle.width = `${(this.getCurrentTime() / this.getDuration()) * 100}%`;
+    }, false);
   }
 
   private moveAudioBar(){
@@ -121,7 +105,7 @@ export class ControlsComponent implements OnInit {
     offsetCalculator.addEventListener('mousedown', (e) => {
       e.stopPropagation();
       mouseIn = true;
-      this.mutedVideo(false);
+      this.setMuted(false);
       let computedOffset = 70 - e.offsetY;
       audioSeeker.style.height = `${computedOffset}px`;
       this.setVolume(computedOffset / 70);
@@ -132,7 +116,6 @@ export class ControlsComponent implements OnInit {
       e.stopPropagation();
         if (mouseIn) {
           let computedOffset = 70 - e.offsetY;
-          this.volume = computedOffset;
           audioSeeker.style.height = `${computedOffset}px`;
           this.setVolume(computedOffset / 70);
         }
@@ -148,6 +131,10 @@ export class ControlsComponent implements OnInit {
       e.stopPropagation();
       mouseIn = false;
     }, false);
+  }
+
+  ngAfterViewInit() {
+    this.video.play();
   }
 
 }

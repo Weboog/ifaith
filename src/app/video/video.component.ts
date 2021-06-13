@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FavouritesService} from "../services/favourites.service";
+import {JsonService} from "../services/json.service";
 
 declare var Hls: any;
 
@@ -13,13 +14,24 @@ export class VideoComponent implements OnInit, AfterViewInit {
   video: any;
   videoWidth = 0;
 
-  constructor(private favouritesService: FavouritesService) { }
+  constructor(private favouritesService: FavouritesService, private jsonService: JsonService) { }
 
   ngOnInit(): void {
     this.favouritesService.add(37);
     //this.favouritesService.remove(71); //return true if item exists and removed and false otherwise
     // console.log(this.favouritesService.getItems()); //Get all fav list in array
     // this.favouritesService.clear();
+  }
+
+  toggleControls(video: HTMLVideoElement){
+    let controls = document.querySelector('.controls') as HTMLDivElement;
+    video.addEventListener('mouseover', (e) => {
+      controls.style.display = 'block';
+    });
+
+    video.addEventListener('mouseleave', (e) => {
+      controls.style.display = 'none';
+    });
   }
 
   ngAfterViewInit(): void {
@@ -34,9 +46,11 @@ export class VideoComponent implements OnInit, AfterViewInit {
       hls.attachMedia(video);
       //////////////////////
       hls.on(Hls.Events.LEVEL_SWITCHED, (event: any, data: any) => {
-        console.log(data);
+        console.log(data, video.offsetWidth);
         window.dispatchEvent(new Event('resize'));
       });
     }
+
+    // this.toggleControls(video);
   }
 }

@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { VideoComponent } from './video/video.component';
 import { DropmenuComponent } from './header/dropmenu/dropmenu.component';
 import { ControlsComponent } from './video/controls/controls.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ControlsComponent } from './video/controls/controls.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
