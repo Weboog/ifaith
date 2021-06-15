@@ -26,11 +26,17 @@ export class VideoComponent implements OnInit, AfterViewInit {
   toggleControls(video: HTMLVideoElement){
     let controls = document.querySelector('.controls') as HTMLDivElement;
     video.addEventListener('mouseover', (e) => {
-      controls.style.display = 'block';
+      controls.addEventListener('mouseover', (e) => {
+        controls.style.opacity = '1';
+      });
+      controls.style.opacity = '1';
     });
 
     video.addEventListener('mouseleave', (e) => {
-      controls.style.display = 'none';
+      controls.addEventListener('mouseleave', (e) => {
+        controls.style.opacity = '0';
+      });
+      controls.style.opacity = '0';
     });
   }
 
@@ -44,13 +50,13 @@ export class VideoComponent implements OnInit, AfterViewInit {
       const hls = new Hls();
       hls.loadSource(videoSrc);
       hls.attachMedia(video);
-      //////////////////////
+      //--------------
       hls.on(Hls.Events.LEVEL_SWITCHED, (event: any, data: any) => {
-        console.log(data, video.offsetWidth);
+        // console.log(data, video.offsetWidth);
         window.dispatchEvent(new Event('resize'));
       });
     }
 
-    // this.toggleControls(video);
+    this.toggleControls(video);
   }
 }

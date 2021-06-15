@@ -41,7 +41,6 @@ export class ControlsComponent implements OnInit, AfterViewInit {
   }
 
   toggleFullScreen(){
-    console.log('fullscreen');
     let videoContainer = document.querySelector('.video') as HTMLDivElement;
     if (!document.fullscreenElement) {
       videoContainer.requestFullscreen().catch(error => {alert('Cant set in full screen')});
@@ -134,7 +133,11 @@ export class ControlsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.video.play();
+    this.video.addEventListener('loadeddata', (e: any) => {
+      this.video.muted = true;
+      this.setMuted(true);
+      this.video.play();
+    })
   }
 
 }
